@@ -1,0 +1,34 @@
+﻿@model d6Invoice.Models.Client
+
+@{
+    ViewBag.Title = "Delete Client";
+}
+
+
+<div class="">
+    <dl class="details">
+        <dt>@Html.DisplayNameFor( model => model.Name )</dt>
+        <dd>@Html.DisplayFor( model => model.Name )</dd>
+
+        <dt>@Html.DisplayNameFor( model => model.CompanyName )</dt>
+        <dd>@Html.DisplayFor( model => model.CompanyName )</dd>
+
+        <dt>@Html.DisplayNameFor( model => model.StreetAddress )</dt>
+        <dd>@Html.DisplayFor( model => model.StreetAddress )</dd>
+
+        <dt>@Html.DisplayNameFor( model => model.CityStateZip )</dt>
+        <dd>@Html.DisplayFor( model => model.CityStateZip )</dd>
+
+        <dt>@Html.DisplayNameFor( model => model.Phone )</dt>
+        <dd>@Html.DisplayFor( model => model.Phone )</dd>
+    </dl>
+
+    @using ( Html.BeginForm() )
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="col-12">
+            <input class="btn btn-danger" type="submit" value="Confirm"/> | @Html.ActionLink( "Back to List", "Index", null, new { @class = "btn btn-primary" } )
+        </div>
+    }
+</div>

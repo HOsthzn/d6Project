@@ -1,0 +1,175 @@
+﻿@model d6Invoice.Models.InvoiceHeader
+
+@{
+    ViewBag.Title = "Create Invoice";
+}
+
+@using ( Html.BeginForm() )
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary( true, "", new { @class = "text-danger" } )
+    @Html.ValidationMessageFor( model => model.ClientId, "", new { @class = "text-danger" } )
+    
+    <div class="col-md-12">
+        <section class="invoice">
+            <div class="invoice-header row">
+                <div class="company col-5">
+                    <h2>Company Name</h2>
+                    <label class="small">StreetAddress</label>
+                    <label class="small">City, St ZIP</label>
+                    <label class="small">Phone: 012 345 6789</label>
+                    <label class="small">Fax: 012 345 6789</label>
+                    <label href="https://www.google.com" class="small">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
+                            <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
+                        </svg>
+                        Website
+                    </label>
+                </div>
+                <div class="invoice-for col-5">
+                    <h2>Invoice</h2>
+                    <label>
+                        Date
+                        <input name="Date" id="Date" type="date" value="@DateTime.Now.ToString( "yyyy-MM-dd" )"/>
+                    </label>
+                    <label>Invoice: Generated upon saving</label>
+                    <label>
+                        Customer Id
+                        @Html.DropDownListFor( model => model.ClientId, new SelectList( ViewBag.Clients, "Id", "Name" ), "Select Customer" )
+                    </label>
+                    <label>
+                        Due Date
+                        <input name="DueDate" id="DueDate" type="date" value="@DateTime.Now.AddDays(30).ToString( "yyyy-MM-dd" )"/>
+                    </label>
+                </div>
+                <div class="billTo col-5">
+                    <h4>Bill To</h4>
+                    <label id="lblBillTo_Name"></label>
+                    <label id="lblBillTo_CompanyName"></label>
+                    <label id="lblBillTo_StreetAddress"></label>
+                    <label id="lblBillTo_CityStateZip"></label>
+                    <label id="lblBillTo_Phone"></label>
+                </div>
+            </div>
+            <div class="invoice-details">
+
+                <table id="tbInvoicesDetails">
+                    <thead>
+                    <tr>
+                        <th colspan="5">
+                            <input id="btnAddItem" class="btn btn-primary col-12" type="button" value="Add Item to Invoice"/>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="col-1"></th>
+                        <th class="col-1">Description</th>
+                        <th class="col-1">Quantity</th>
+                        <th class="col-1">Taxed</th>
+                        <th class="col-1">Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if ( Model.InvoiceDetails.Count > 0 )
+                    {
+                        for ( int i = 0; i < Model.InvoiceDetails.Count; i++ )
+                        {
+                            <tr id="@Guid.NewGuid().ToString()">
+                                <td>
+                                    @Html.Hidden( "InvoiceDetails.Index", i )
+                                    <input class="btn btn-secondary" type="button" value="remove" onclick="invoices.CreateEdit.invoiceDetails.removeItem( this )">
+                                </td>
+                                <td>
+                                    <select id="InvoiceDetails_@(i)_ProductId" class="ddlProduct" name="InvoiceDetails[@i].ProductId">
+                                        <option value="">Select Product</option>
+                                        @foreach ( dynamic prod in ViewBag.Products )
+                                        {
+                                            if ( Model.InvoiceDetails[ i ].ProductId == prod.Id )
+                                            {
+                                                <option value="@prod.Id" data-price="@prod.Price" selected="selected">@prod.Description</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@prod.Id" data-price="@prod.Price">@prod.Description</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input class="quantity" id="InvoiceDetails_@(i)_Quantity" name="InvoiceDetails[@i].Quantity" type="number" min="1" value="1">
+                                </td>
+                                <td>
+                                    @if ( Model.InvoiceDetails[ i ].Taxed )
+                                    {
+                                        <input class="taxed" type="checkbox" id="InvoiceDetails_@(i)_Taxed" checked="checked">
+                                        <input type="hidden" name="InvoiceDetails[@i].Taxed" value="true"/>
+                                    }
+                                    else
+                                    {
+                                        <input class="taxed" type="checkbox" id="InvoiceDetails_@(i)_Taxed">
+                                        <input type="hidden" name="InvoiceDetails[@i].Taxed" value="false"/>
+                                    }
+                                </td>
+                                <td>
+                                    <input class="amount" disabled="disabled" value="">
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td >
+                            <div class="invoice-total ">
+                                <label>
+                                    Subtotal
+                                    @Html.TextBoxFor( model => model.Subtotal, new { @readonly = true } )
+                                </label>
+                                <label>
+                                    Taxable
+                                    @Html.TextBoxFor( model => model.Taxable, new { @readonly = true } )
+                                </label>
+                                <label>
+                                    Tax rate
+                                    @Html.TextBoxFor( model => model.TaxRate, new { type = "number" } )
+                                </label>
+                                <label>
+                                    Tax due
+                                    @Html.TextBoxFor( model => model.TaxDue, new { @readonly = true } )
+                                </label>
+                                <label>
+                                    other
+                                    @Html.TextBoxFor( model => model.Other, new { type = "number" } )
+                                </label>
+                                <hr/>
+                                <label>
+                                    Total
+                                    @Html.TextBoxFor( model => model.Total, new { @readonly  = true } )
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="invoice-footer">
+
+            </div>
+        </section>
+    </div>
+    <div class="col-12">
+      
+        <input class="btn btn-primary" type="submit" value="Save"/> |
+        @Html.ActionLink( "Back to List", "Index", null, new { @class = "btn btn-secondary" } )
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        document.addEventListener( "DOMContentLoaded", invoices.CreateEdit.init );
+    </script>
+}

@@ -1,0 +1,57 @@
+﻿@model d6Invoice.Models.Client
+
+@{
+    ViewBag.Title = "Create Client";
+}
+
+@using ( Html.BeginForm() )
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary( true, "", new { @class = "text-danger" } )
+    
+    <div class="col-md-12">
+        <label class="row col-6">
+            @Html.DisplayNameFor( model => model.Name )
+            <div class="col-md-3">
+                @Html.TextBoxFor( model => model.Name )
+                @Html.ValidationMessageFor( model => model.Name, "", new { @class = "text-danger" } )
+            </div>
+        </label>
+
+        <label class="row col-6">
+            @Html.DisplayNameFor( model => model.CompanyName )
+            <div class="col-md-3">
+                @Html.TextBoxFor( model => model.CompanyName )
+                @Html.ValidationMessageFor( model => model.CompanyName, "", new { @class = "text-danger" } )
+            </div>
+        </label>
+
+        <label class="row col-6">
+            @Html.DisplayNameFor( model => model.StreetAddress )
+            <div class="col-md-3">
+                @Html.TextBoxFor( model => model.StreetAddress )
+                @Html.ValidationMessageFor( model => model.StreetAddress, "", new { @class = "text-danger" } )
+            </div>
+        </label>
+
+        <label class="row col-6">
+            @Html.DisplayNameFor( model => model.CityStateZip )
+            <div class="col-md-3">
+                @Html.TextBoxFor( model => model.CityStateZip )
+                @Html.ValidationMessageFor( model => model.CityStateZip, "", new { @class = "text-danger" } )
+            </div>
+        </label>
+
+        <label class="row col-6">
+            @Html.DisplayNameFor( model => model.Phone )
+            <div class="col-md-3">
+                @Html.TextBoxFor( model => model.Phone )
+                @Html.ValidationMessageFor( model => model.Phone, "", new { @class = "text-danger" } )
+            </div>
+        </label>
+    </div>
+    <div class="col-12">
+        <input class="btn btn-primary" type="submit" value="Save"/> |
+        @Html.ActionLink( "Back to List", "Index", null, new { @class = "btn btn-secondary" } )
+    </div>
+}
