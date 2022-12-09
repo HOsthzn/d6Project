@@ -1,4 +1,4 @@
-##d6 Project
+# d6 Project
 
 Please make sure to update the SQL dataBase connection string (DefaultConnection) located in the Web.config file in the root directory of the code.
 
