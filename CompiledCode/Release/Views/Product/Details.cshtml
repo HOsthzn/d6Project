@@ -1,0 +1,19 @@
+﻿@model d6Invoice.Models.Product
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+<div class="">
+    <dl class="details">
+        <dt>@Html.DisplayNameFor( model => model.Description )</dt>
+        <dd>@Html.DisplayFor( model => model.Description )</dd>
+
+        <dt>@Html.DisplayNameFor( model => model.Price )</dt>
+        <dd>@Html.DisplayFor( model => model.Price )</dd>
+    </dl>
+    <div class="col-12">
+        @Html.ActionLink( "Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" } ) |
+        @Html.ActionLink( "Back to List", "Index", null, new { @class = "btn btn-secondary" } )
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model d6Invoice.Models.Client
+
+@{
+    ViewBag.Title = "Client Details";
+}
+
+<div class="">
+    <dl class="details">
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.CompanyName)</dt>
+        <dd>@Html.DisplayFor(model => model.CompanyName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.StreetAddress)</dt>
+        <dd>@Html.DisplayFor(model => model.StreetAddress)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.CityStateZip)</dt>
+        <dd>@Html.DisplayFor(model => model.CityStateZip)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Phone)</dt>
+        <dd>@Html.DisplayFor(model => model.Phone)</dd>
+    </dl>
+    <div class="col-12">
+        @Html.ActionLink( "Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" } ) |
+        @Html.ActionLink( "Back to List", "Index", null, new { @class = "btn btn-secondary" } )
+    </div>
+</div>
