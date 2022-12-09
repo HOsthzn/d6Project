@@ -6,6 +6,8 @@
 
 ***Make sure to set the Server, Database, user id and password.***
 
+To run the project, clone the Debug or Release version from the CompiledCode. Update the SQL connection, and point IIS at the directory
+
 # Index
 
 1. CompiledCode
