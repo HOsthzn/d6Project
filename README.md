@@ -7,6 +7,7 @@
 ***Make sure to set the Server, Database, user id and password.***
 
 To run the project, clone the Debug or Release version from the CompiledCode. Update the SQL connection, and point IIS at the directory
+> use 'git clone https://github.com/HOsthzn/d6Project/tree/main/CompiledCode/Debug' in CLI to clone the Debug directory
 
 # Index
 
